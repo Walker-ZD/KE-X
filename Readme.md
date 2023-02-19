@@ -36,7 +36,7 @@ python ./main/FB15K237/FB15K237_run.py -- action explain --conv transe --relatio
 
 ```python
 # Get visual graph for target node
-python ./main/FB15K237/FB15K237_run.py -- action visual --conv transe --relation_id 0 --node target_node
+python ./main/FB15K237/FB15K237_run.py -- action visual --conv transe --relation_id 0 --node {target_node}
 ```
 
  **Visual example**
