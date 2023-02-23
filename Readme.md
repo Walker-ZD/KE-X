@@ -16,9 +16,9 @@
 ### Prepare:
 
 
--  Obtain pretraining entity and relation embeddings for fb15k-237,NELL-995, and YAGO3-10 dataset, we recommend using  [OpenKE](https://github.com/thunlp/OpenKE).
--  Save the pretrained embeddings as  **.npy** format with numpy, and then rename the files as **ent_embeddings.npy** and **rel_embeddings.npy**.
-- Remove the above two files to **main/{datset}/{TransE}_preTrain** folder.
+-  Obtain pretraining entity and relation embeddings for fb15k-237, NELL-995, and YAGO3-10 datasets. We recommend using  [OpenKE](https://github.com/thunlp/OpenKE). You can also use your own embeddings, but please make sure that the indices of entities and relations correspond to the official dataset;
+-  Save the pretrained embeddings as  **.npy** format with numpy, and rename the files as **ent_embeddings.npy** and **rel_embeddings.npy**.
+- Remove the above two files to **main/{datset}/{model}_preTrain** folder.
 
 
 ### Train:
