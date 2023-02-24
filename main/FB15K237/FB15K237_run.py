@@ -57,7 +57,7 @@ class Net(torch.nn.Module):
             conv_func = DistMult_Conv
             
         self.conv1 = conv_func(in_channels=self.in_channels, out_channels=50,
-                              num_relations=relation_num, num_bases=5, root_weight=True)
+                              num_relations=relation_num, num_baSses=5, root_weight=True)
         self.conv2 = conv_func(in_channels=50, out_channels=class_num,
                               num_relations=relation_num, num_bases=5, root_weight=True)
 
