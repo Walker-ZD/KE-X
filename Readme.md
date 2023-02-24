@@ -23,20 +23,20 @@
 
 ### Train:
   ```python
-  python ./main/FB15K237/FB15K237_run.py --action train --conv transe --relation_id 0 --batch_size 100 --epoch 100
+  python ./main/FB15K237/FB15K237_run.py --action train --model transe --relation_id 0 --batch_size 100 --epoch 100
   ```
 ### Explain:
 
 ```python
 # Get metrics for three explanation methods
-python ./main/FB15K237/FB15K237_run.py --action explain --conv transe --relation_id 0
+python ./main/FB15K237/FB15K237_run.py --action explain --model transe --relation_id 0
 ```
 
 ### Visual:
 
 ```python
 # Get visual graph for target node
-python ./main/FB15K237/FB15K237_run.py --action visual --conv transe --relation_id 0 --node {target_node}
+python ./main/FB15K237/FB15K237_run.py --action visual --model transe --relation_id 0 --node {target_node}
 ```
 
  **Visual example**

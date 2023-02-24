@@ -29,7 +29,7 @@ def argument():
     parser.add_argument('--action', type=str,
                             choices=['train', 'explain', 'metric'])
     parser.add_argument('--relation_id', type=int)
-    parser.add_argument('--conv', type=str,
+    parser.add_argument('--model', type=str,
                             choices=['transe', 'distmult'])
     parser.add_argument('--batch_size', type=int,
                         default=100)
@@ -118,7 +118,7 @@ def test():
     test_acc = pred[data.train_idx.shape[0]:].eq(data.test_y).to(torch.float).mean()
 
     if 'max_acc' in globals():
-        path = osp.dirname(osp.realpath(__file__)) + "/../../model_save/yago3-10_relation" + "_" + str(args.relation_id) + "_" + args.conv + "_conv.pt"
+        path = osp.dirname(osp.realpath(__file__)) + "/../../model_save/yago3-10_relation" + "_" + str(args.relation_id) + "_" + args.model + "_conv.pt"
         torch.save(model.state_dict(), path)
         globals()['max_acc'] = test_acc.item()
 
@@ -149,7 +149,7 @@ batch_size = args.batch_size
 epoch = args.epoch
 
 
-if args.conv == 'distmult':
+if args.model == 'distmult':
     ent_embedding = torch.tensor(np.load(osp.dirname(osp.realpath(__file__)) + "/TransE_preTrain/ent_embeddings_n10_d300.npy")).to(device)
     rel_embedding = torch.tensor(np.load(osp.dirname(osp.realpath(__file__)) + "/TransE_preTrain/rel_embeddings_n10_d300.npy")).to(device)
 else:
@@ -157,7 +157,7 @@ else:
     rel_embedding = torch.tensor(np.load(osp.dirname(osp.realpath(__file__)) + "/DistMult_preTrain/rel_embeddings_n10_d300.npy")).to(device)
 
 model = Net(ent_embedding, rel_embedding,
-            (data.edge_type.max() + 1).item(), (data.train_y.max() + 1).item(), args.conv).to(device)
+            (data.edge_type.max() + 1).item(), (data.train_y.max() + 1).item(), args.model).to(device)
 data = data.to(device)
 
 
@@ -174,7 +174,7 @@ if args.action == 'train':
 
     print("success save")
 
-    path = osp.dirname(osp.realpath(__file__)) + "/../../model_save/yago3-10_relation" + "_" + str(args.relation_id) + "_" + args.conv + "_conv.pt"
+    path = osp.dirname(osp.realpath(__file__)) + "/../../model_save/yago3-10_relation" + "_" + str(args.relation_id) + "_" + args.model + "_conv.pt"
     model.load_state_dict(torch.load(path))
     train_acc, test_acc = test()
     print(f'Train: {train_acc:.4f} '
@@ -183,7 +183,7 @@ if args.action == 'train':
 
 if args.action == 'explain':
     
-    path = osp.dirname(osp.realpath(__file__)) + "/../../model_save/yago3-10_relation" + "_" + str(args.relation_id) + "_" + args.conv + "_conv.pt"
+    path = osp.dirname(osp.realpath(__file__)) + "/../../model_save/yago3-10_relation" + "_" + str(args.relation_id) + "_" + args.model + "_conv.pt"
     
     if os.path.exists(path) == False:
         print("No pre-train model for " + str(args.relation_id))
@@ -200,7 +200,7 @@ if args.action == 'explain':
     pred_true_node_list = []
     result_dict = {}
     
-    save_path = osp.dirname(osp.realpath(__file__)) + "/../../explain_result/yago3-10_relation" + "_" + str(args.relation_id) + "_" + args.conv + "_explain_result.json"
+    save_path = osp.dirname(osp.realpath(__file__)) + "/../../explain_result/yago3-10_relation" + "_" + str(args.relation_id) + "_" + args.model + "_explain_result.json"
     
     for i in range(0, data.test_idx.shape[0]):
 
@@ -259,7 +259,7 @@ if args.action == 'explain':
         f.write('\n')
         json.dump(result_dict, f)
 
-    result_path = osp.dirname(osp.realpath(__file__)) + "/../../explain_result/yago3-10_relation" + "_" + str(args.relation_id) + "_" + args.conv + "_explain_result.json"
+    result_path = osp.dirname(osp.realpath(__file__)) + "/../../explain_result/yago3-10_relation" + "_" + str(args.relation_id) + "_" + args.model + "_explain_result.json"
     with open(result_path, 'r') as f:
         node_dict = json.load(f)
         
@@ -267,7 +267,7 @@ if args.action == 'explain':
 
 
 if args.action == 'visual':
-    path = osp.dirname(osp.realpath(__file__)) + "/../../model_save/yago3-10_relation" + "_" + str(args.relation_id) + "_" + args.conv + "_conv.pt"
+    path = osp.dirname(osp.realpath(__file__)) + "/../../model_save/yago3-10_relation" + "_" + str(args.relation_id) + "_" + args.model + "_conv.pt"
     model.load_state_dict(torch.load(path))
     target_node = args.node
     visual_node(target_node, pred_tail=None, model=model, data=data)
